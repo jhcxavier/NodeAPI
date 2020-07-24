@@ -40,7 +40,7 @@ export const login = (req, res) => {
     },
     (err, user) => {
       if (err) throw err;
-      // If no user we send message
+      // If no user found we send message
       if (!user) {
         res
           .status(401)
