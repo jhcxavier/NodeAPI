@@ -3,9 +3,14 @@ import routes from "./src/routes/crmRoutes";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import jsonwebtoken from "jsonwebtoken";
+import helmet from "helmet";
 
 const app = express();
 const PORT = 4001;
+
+// helmet setup
+//Helmet is a collection of 12 middleware functions to help set some HTTP response headers.
+app.use(helmet);
 
 //mongoose connection
 mongoose.Promise = global.Promise;
