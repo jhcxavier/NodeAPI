@@ -13,6 +13,17 @@ const PORT = 4001;
 //Helmet is a collection of 12 middleware functions to help set some HTTP response headers.
 app.use(helmet);
 
+//In short: the CSP module sets the Content-Security-Policy header which can help protect against malicious
+//injection of JavaScript, CSS, plugins, and more.
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "maxcdn.bootstrapcdn.com"],
+    },
+  })
+);
+
 //Rate Limit setup (Minimize DoS Attack) Denial of Service
 const limiter = new RateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
