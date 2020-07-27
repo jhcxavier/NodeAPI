@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import jsonwebtoken from "jsonwebtoken";
 import helmet from "helmet";
+import RateLimit from "express-rate-limit";
 
 const app = express();
 const PORT = 4001;
@@ -11,6 +12,13 @@ const PORT = 4001;
 // helmet setup
 //Helmet is a collection of 12 middleware functions to help set some HTTP response headers.
 app.use(helmet);
+
+//Rate Limit setup (Minimize DoS Attack) Denial of Service
+const limiter = new RateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, //limit of number of request per IP
+  delayMs: 0, //disable delays
+});
 
 //mongoose connection
 mongoose.Promise = global.Promise;
