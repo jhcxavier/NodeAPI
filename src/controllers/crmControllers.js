@@ -14,6 +14,7 @@ export const addNewContact = (req, res) => {
         res.send(err);
       }
       res.json(contact);
+      contact = undefined;
     });
   } else {
     res.json({ message: "Email not valid" });
