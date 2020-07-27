@@ -1,17 +1,22 @@
 import mongoose from "mongoose";
 import { ContactSchema } from "../models/crmModels";
+import validator from "validator";
 
 const Contact = mongoose.model("Contact", ContactSchema);
 
 export const addNewContact = (req, res) => {
   let newContact = new Contact(req.body);
 
-  newContact.save((err, contact) => {
-    if (err) {
-      res.send(err);
-    }
-    res.json(contact);
-  });
+  if (validator.isEmail(newContact.email)) {
+    newContact.save((err, contact) => {
+      if (err) {
+        res.send(err);
+      }
+      res.json(contact);
+    });
+  } else {
+    res.json({ message: "Email not valid" });
+  }
 };
 export const getContact = (req, res) => {
   Contact.find({}, (err, contact) => {
