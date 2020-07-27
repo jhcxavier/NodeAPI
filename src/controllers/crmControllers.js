@@ -7,6 +7,7 @@ const Contact = mongoose.model("Contact", ContactSchema);
 export const addNewContact = (req, res) => {
   let newContact = new Contact(req.body);
 
+  //validates email format when creating a new contact
   if (validator.isEmail(newContact.email)) {
     newContact.save((err, contact) => {
       if (err) {
@@ -27,7 +28,7 @@ export const getContact = (req, res) => {
   });
 };
 export const getContactById = (req, res) => {
-  Contact.findById(req.params.contactID, (err, contact) => {
+  Contact.findById({ _id: req.params.contactID }, (err, contact) => {
     if (err) {
       res.send(err);
     }
