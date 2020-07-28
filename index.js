@@ -25,7 +25,7 @@ app.use(
 );
 
 // Frameguard mitigates clickjacking attacks by setting the X-Frame-Options header.
-app.use(helmet.frameguard({ action: "SAMEORIGIN" }));
+app.use(helmet.frameguard({ action: "DENY" }));
 
 //Rate Limit setup (Minimize DoS Attack) Denial of Service
 const limiter = new RateLimit({
