@@ -15,7 +15,7 @@ const PORT = 4001;
 
 // helmet setup
 //Helmet is a collection of 12 middleware functions to help set some HTTP response headers.
-app.use(helmet);
+app.use(helmet());
 
 // This middleware adds the Strict-Transport-Security header to the response.
 const hstsMiddleware = hsts({
@@ -115,27 +115,31 @@ app.use(express.static("public"));
 app.get("/", (req, res) => {
   // res.setHeader("Strict-Transport-Security", "max-age=31536000");
   res.send(
-    `Node and express server running on port ${PORT}`,
-    "Strict-Transport-Security",
-    "max-age=31536000"
+    `Node and express server running on port ${PORT}`
+    // "Strict-Transport-Security",
+    // "max-age=31536000"
   );
 });
 
-//imolementation for CSP
-http
-  .createServer((req, res) => {
-    req.on("error", (err) => {
-      console.error(err);
-    });
-    //In short: the CSP module sets the Content-Security-Policy header which can help protect against malicious
-    //injection of JavaScript, CSS, plugins, and more.
-    res.writeHead(200, {
-      "Content-Security-Policy": "default-src 'self'",
-    });
-  })
-  .listen(PORT, () => {
-    console.log(`Your server is running on port ${PORT}`);
-  });
-// app.listen(PORT, () => {
-//   console.log(`Your server is running on port ${PORT}`);
-// });
+// imolementation for CSP
+// http
+//   .createServer((req, res) => {
+//     req
+//       .on("error", (err) => {
+//         console.error(err);
+//       })
+//       .on("error", (err) => {
+//         console.error(err);
+//       });
+//     //In short: the CSP module sets the Content-Security-Policy header which can help protect against malicious
+//     //injection of JavaScript, CSS, plugins, and more.
+//     res.writeHead(200, {
+//       "Content-Security-Policy": "default-src 'self'",
+//     });
+//   })
+//   .listen(PORT, () => {
+//     console.log(`Your server is running on port ${PORT}`);
+//   });
+app.listen(PORT, () => {
+  console.log(`Your server is running on port ${PORT}`);
+});
