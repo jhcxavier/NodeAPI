@@ -5,9 +5,9 @@ import bodyParser from "body-parser";
 import jsonwebtoken from "jsonwebtoken";
 import helmet from "helmet";
 // import csp from "helmet-csp";
-import xss from "xss-clean";
+const xss = require("xss-clean");
 import RateLimit from "express-rate-limit";
-import hsts from "hsts";
+const hsts = require("hsts");
 import http from "http";
 
 const app = express();
@@ -16,6 +16,8 @@ const PORT = 4001;
 // helmet setup
 //Helmet is a collection of 12 middleware functions to help set some HTTP response headers.
 app.use(helmet());
+
+app.use(helmet.frameguard());
 
 // This middleware adds the Strict-Transport-Security header to the response.
 const hstsMiddleware = hsts({
