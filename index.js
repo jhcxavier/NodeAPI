@@ -6,6 +6,7 @@ import jsonwebtoken from "jsonwebtoken";
 import helmet from "helmet";
 import xss from "xss-clean";
 import RateLimit from "express-rate-limit";
+import hsts from "hsts";
 
 const app = express();
 const PORT = 4001;
@@ -13,6 +14,13 @@ const PORT = 4001;
 // helmet setup
 //Helmet is a collection of 12 middleware functions to help set some HTTP response headers.
 app.use(helmet);
+
+// This middleware adds the Strict-Transport-Security header to the response.
+app.use(
+  hsts({
+    maxAge: 15552000, // 180 days in seconds
+  })
+);
 
 //In short: the CSP module sets the Content-Security-Policy header which can help protect against malicious
 //injection of JavaScript, CSS, plugins, and more.
