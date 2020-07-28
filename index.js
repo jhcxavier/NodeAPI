@@ -25,7 +25,8 @@ app.use(helmet.frameguard({ action: "deny" }));
 
 // This middleware adds the Strict-Transport-Security header to the response.
 const hstsMiddleware = hsts({
-  maxAge: 15552000, // 180 days in seconds
+  maxAge: 31536000, // 1 year
+  preload: true,
 });
 app.use((req, res, next) => {
   if (req.secure) {
@@ -120,12 +121,7 @@ app.use(express.static("public"));
 
 app.get("/", (req, res) => {
   // res.set("X-Frame-Options", value);
-  res.send(
-    `Node and express server running on port ${PORT}`
-
-    // "Strict-Transport-Security",
-    // "max-age=31536000"
-  );
+  res.send(`Node and express server running on port ${PORT}`);
 });
 
 // imolementation for CSP
