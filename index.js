@@ -18,11 +18,16 @@ const PORT = 4001;
 app.use(helmet);
 
 // This middleware adds the Strict-Transport-Security header to the response.
-app.use(
-  hsts({
-    maxAge: 15552000, // 180 days in seconds
-  })
-);
+const hstsMiddleware = hsts({
+  maxAge: 15552000, // 180 days in seconds
+});
+app.use((req, res, next) => {
+  if (req.secure) {
+    hstsMiddleware(req, res, next);
+  } else {
+    next();
+  }
+});
 
 //In short: the CSP module sets the Content-Security-Policy header which can help protect against malicious
 //injection of JavaScript, CSS, plugins, and more.
@@ -117,10 +122,11 @@ http
     req.on("error", (err) => {
       console.error(err);
     });
+    //In short: the CSP module sets the Content-Security-Policy header which can help protect against malicious
+    //injection of JavaScript, CSS, plugins, and more.
     res.writeHead(200, {
       "Content-Security-Policy": "default-src 'self'",
     });
-    res.setHeader("Strict-Transport-Security", "max-age=31536000");
   })
   .listen(PORT, () => {
     console.log(`Your server is running on port ${PORT}`);
