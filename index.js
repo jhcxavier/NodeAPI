@@ -9,6 +9,7 @@ const xss = require("xss-clean");
 import RateLimit from "express-rate-limit";
 const hsts = require("hsts");
 import http from "http";
+const express_enforces_ssl = require("express-enforces-ssl");
 
 const app = express();
 const PORT = 4001;
@@ -16,6 +17,9 @@ const PORT = 4001;
 // helmet setup
 //Helmet is a collection of 12 middleware functions to help set some HTTP response headers.
 app.use(helmet());
+
+// This simple module enforces HTTPS connections on any incoming requests.
+// app.use(express_enforces_ssl());
 
 app.use(helmet.frameguard());
 
@@ -115,9 +119,9 @@ routes(app);
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-  // res.setHeader("Strict-Transport-Security", "max-age=31536000");
-  res.json(
-    { message: `Node and express server running on port ${PORT}` }
+  res.set("Strict-Transport-Security", "max-age=31536000");
+  res.send(
+    `Node and express server running on port ${PORT}`
     // "Strict-Transport-Security",
     // "max-age=31536000"
   );
@@ -145,3 +149,7 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Your server is running on port ${PORT}`);
 });
+
+// http.createServer(app).listen(app.get("port"), function () {
+//   console.log("Express server listening on port " + app.get("port"));
+// });
