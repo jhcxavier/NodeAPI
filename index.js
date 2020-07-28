@@ -4,10 +4,11 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import jsonwebtoken from "jsonwebtoken";
 import helmet from "helmet";
-import csp from "helmet-csp";
+// import csp from "helmet-csp";
 import xss from "xss-clean";
 import RateLimit from "express-rate-limit";
 import hsts from "hsts";
+import http from "http";
 
 const app = express();
 const PORT = 4001;
@@ -25,19 +26,19 @@ app.use(
 
 //In short: the CSP module sets the Content-Security-Policy header which can help protect against malicious
 //injection of JavaScript, CSS, plugins, and more.
-app.use(
-  csp({
-    directives: {
-      defaultSrc: ["'self'", "default.com"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
-      sandbox: ["allow-forms", "allow-scripts"],
-      reportUri: "/report-violation",
-      objectSrc: ["'none'"],
-      upgradeInsecureRequests: true,
-      workerSrc: false,
-    },
-  })
-);
+// app.use(
+//   csp({
+//     directives: {
+//       defaultSrc: ["'self'", "default.com"],
+//       scriptSrc: ["'self'", "'unsafe-inline'"],
+//       sandbox: ["allow-forms", "allow-scripts"],
+//       reportUri: "/report-violation",
+//       objectSrc: ["'none'"],
+//       upgradeInsecureRequests: true,
+//       workerSrc: false,
+//     },
+//   })
+// );
 
 // Frameguard mitigates clickjacking attacks by setting the X-Frame-Options header.
 // app.use(helmet.frameguard({ action: "DENY" }));
@@ -99,6 +100,19 @@ app.get("/", (req, res) => {
   res.send(`Node and express server running on port ${PORT}`);
 });
 
-app.listen(PORT, () => {
-  console.log(`Your server is running on port ${PORT}`);
-});
+//imolementation for CSP
+http
+  .createServer((req, res) => {
+    req.on("error", (err) => {
+      console.error(err);
+    });
+    res.writeHead(200, {
+      "Content-Security-Policy": "default-src 'self'",
+    });
+  })
+  .listen(PORT, () => {
+    console.log(`Your server is running on port ${PORT}`);
+  });
+// app.listen(PORT, () => {
+//   console.log(`Your server is running on port ${PORT}`);
+// });

@@ -17,6 +17,7 @@
     "helmet": "^3.23.3",
     "helmet-csp": "^2.10.0",
     "hsts": "^2.2.0",
+    "http": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.9",
     "mongoose": "^5.9.25",
