@@ -113,6 +113,7 @@ routes(app);
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
+  res.setHeader("Strict-Transport-Security", "max-age=31536000");
   res.send(`Node and express server running on port ${PORT}`);
 });
 
