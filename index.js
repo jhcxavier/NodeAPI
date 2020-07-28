@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import jsonwebtoken from "jsonwebtoken";
 import helmet from "helmet";
+import csp from "helmet-csp";
 import xss from "xss-clean";
 import RateLimit from "express-rate-limit";
 import hsts from "hsts";
@@ -25,10 +26,15 @@ app.use(
 //In short: the CSP module sets the Content-Security-Policy header which can help protect against malicious
 //injection of JavaScript, CSS, plugins, and more.
 app.use(
-  helmet.contentSecurityPolicy({
+  csp({
     directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "maxcdn.bootstrapcdn.com"],
+      defaultSrc: ["'self'", "default.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      sandbox: ["allow-forms", "allow-scripts"],
+      reportUri: "/report-violation",
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: true,
+      workerSrc: false,
     },
   })
 );
