@@ -53,18 +53,18 @@ app.use((req, res, next) => {
 // );
 
 // Frameguard mitigates clickjacking attacks by setting the X-Frame-Options header.
-// app.use(helmet.frameguard({ action: "DENY" }));
-// const allowCrossDomain = (req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Content-Type, X-Requested-With, Authorization"
-//   );
-//   if (req.method === "OPTIONS") res.send(200);
-//   else next();
-// };
-// app.use(allowCrossDomain);
+app.use(helmet.frameguard({ action: "DENY" }));
+const allowCrossDomain = (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, X-Requested-With, Authorization"
+  );
+  if (req.method === "OPTIONS") res.send(200);
+  else next();
+};
+app.use(allowCrossDomain);
 
 //Prevent XSS attacks
 app.use(xss());
