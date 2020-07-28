@@ -120,6 +120,7 @@ http
     res.writeHead(200, {
       "Content-Security-Policy": "default-src 'self'",
     });
+    res.setHeader("Strict-Transport-Security", "max-age=31536000");
   })
   .listen(PORT, () => {
     console.log(`Your server is running on port ${PORT}`);
