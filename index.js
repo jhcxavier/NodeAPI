@@ -21,7 +21,7 @@ app.use(helmet());
 // This simple module enforces HTTPS connections on any incoming requests.
 // app.use(express_enforces_ssl());
 
-app.use(helmet.frameguard());
+app.use(helmet.frameguard({ action: "deny" }));
 
 // This middleware adds the Strict-Transport-Security header to the response.
 const hstsMiddleware = hsts({
@@ -119,9 +119,10 @@ routes(app);
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-  res.set("Strict-Transport-Security", "max-age=31536000");
+  // res.set("X-Frame-Options", value);
   res.send(
     `Node and express server running on port ${PORT}`
+
     // "Strict-Transport-Security",
     // "max-age=31536000"
   );
