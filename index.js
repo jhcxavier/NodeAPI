@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import jsonwebtoken from "jsonwebtoken";
 import helmet from "helmet";
+import xss from "xss-clean";
 import RateLimit from "express-rate-limit";
 
 const app = express();
@@ -25,7 +26,10 @@ app.use(
 );
 
 // Frameguard mitigates clickjacking attacks by setting the X-Frame-Options header.
-app.use(helmet.frameguard({ action: "DENY" }));
+// app.use(helmet.frameguard({ action: "DENY" }));
+
+//Prevent XSS attacks
+app.use(xss());
 
 //Rate Limit setup (Minimize DoS Attack) Denial of Service
 const limiter = new RateLimit({
