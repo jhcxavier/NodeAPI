@@ -24,18 +24,25 @@ app.use(helmet());
 app.use(helmet.frameguard({ action: "deny" }));
 
 // This middleware adds the Strict-Transport-Security header to the response.
-const hstsMiddleware = hsts({
-  maxAge: 31536000, // 1 year
-  preload: true,
-});
-app.use((req, res, next) => {
-  if (req.secure) {
-    hstsMiddleware(req, res, next);
-  } else {
-    next();
-  }
-});
+// const hstsMiddleware = hsts({
+//   maxAge: 31536000, // 1 year
+//   preload: true,
+// });
+// app.use((req, res, next) => {
+//   if (req.secure) {
+//     hstsMiddleware(req, res, next);
+//   } else {
+//     next();
+//   }
+// });
 
+app.use(
+  hsts({
+    maxAge: 31536000, // Must be at least 1 year to be approved
+    includeSubDomains: true, // Must be enabled to be approved
+    preload: true,
+  })
+);
 //In short: the CSP module sets the Content-Security-Policy header which can help protect against malicious
 //injection of JavaScript, CSS, plugins, and more.
 // app.use(
