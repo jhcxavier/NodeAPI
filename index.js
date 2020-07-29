@@ -129,6 +129,9 @@ app.use(express.static("public"));
 
 app.get("/", (req, res) => {
   // res.set("X-Frame-Options", value);
+  res.writeHead(200, {
+    "Content-Security-Policy": "default-src 'self'",
+  });
   res.send(`Node and express server running on port ${PORT}`);
 });
 
