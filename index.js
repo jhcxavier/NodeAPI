@@ -61,7 +61,7 @@ app.use(
 
 // Frameguard mitigates clickjacking attacks by setting the X-Frame-Options header.
 app.use(helmet.frameguard({ action: "DENY" }));
-app.use(frameguard({ action: "deny" }));
+// app.use(frameguard({ action: "deny" }));
 // const allowCrossDomain = (req, res, next) => {
 //   res.header("Access-Control-Allow-Origin");
 //   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
@@ -103,7 +103,7 @@ app.use((req, res, next) => {
     req.headers.authorization &&
     req.headers.authorization.split(" ")[0] === "JWT"
   ) {
-    //with jasonwebtoken we validate all of it and verufy the signature.
+    //with jasonwebtoken we validate all of it and verify the signature.
     jsonwebtoken.verify(
       //checking the next item in the array and the word should match the same of the login function when return ok.
       // check userControllers.js login function.
@@ -129,35 +129,12 @@ app.use(express.static("public"));
 
 app.get("/", (req, res) => {
   // res.set("X-Frame-Options", value);
-  res.writeHead(200, {
-    "Content-Security-Policy": "default-src 'self'",
-  });
+  // res.writeHead(200, {
+  //   "Content-Security-Policy": "default-src 'self'",
+  // });
   res.send(`Node and express server running on port ${PORT}`);
 });
 
-// imolementation for CSP
-// http
-//   .createServer((req, res) => {
-//     req
-//       .on("error", (err) => {
-//         console.error(err);
-//       })
-//       .on("error", (err) => {
-//         console.error(err);
-//       });
-//     //In short: the CSP module sets the Content-Security-Policy header which can help protect against malicious
-//     //injection of JavaScript, CSS, plugins, and more.
-//     res.writeHead(200, {
-//       "Content-Security-Policy": "default-src 'self'",
-//     });
-//   })
-//   .listen(PORT, () => {
-//     console.log(`Your server is running on port ${PORT}`);
-//   });
 app.listen(PORT, () => {
   console.log(`Your server is running on port ${PORT}`);
 });
-
-// http.createServer(app).listen(app.get("port"), function () {
-//   console.log("Express server listening on port " + app.get("port"));
-// });
