@@ -9,7 +9,7 @@ const xss = require("xss-clean");
 import RateLimit from "express-rate-limit";
 const hsts = require("hsts");
 import http from "http";
-const express_enforces_ssl = require("express-enforces-ssl");
+// const express_enforces_ssl = require("express-enforces-ssl");
 
 const app = express();
 const PORT = 4001;
@@ -21,21 +21,10 @@ app.use(helmet());
 // This simple module enforces HTTPS connections on any incoming requests.
 // app.use(express_enforces_ssl());
 
+// Frameguard mitigates clickjacking attacks by setting the X-Frame-Options header.
 app.use(helmet.frameguard({ action: "deny" }));
 
 // This middleware adds the Strict-Transport-Security header to the response.
-// const hstsMiddleware = hsts({
-//   maxAge: 31536000, // 1 year
-//   preload: true,
-// });
-// app.use((req, res, next) => {
-//   if (req.secure) {
-//     hstsMiddleware(req, res, next);
-//   } else {
-//     next();
-//   }
-// });
-
 app.use(
   hsts({
     maxAge: 31536000, // Must be at least 1 year to be approved
@@ -43,6 +32,7 @@ app.use(
     preload: true,
   })
 );
+
 //In short: the CSP module sets the Content-Security-Policy header which can help protect against malicious
 //injection of JavaScript, CSS, plugins, and more.
 // app.use(
@@ -58,21 +48,6 @@ app.use(
 //     },
 //   })
 // );
-
-// Frameguard mitigates clickjacking attacks by setting the X-Frame-Options header.
-app.use(helmet.frameguard({ action: "DENY" }));
-// app.use(frameguard({ action: "deny" }));
-// const allowCrossDomain = (req, res, next) => {
-//   res.header("Access-Control-Allow-Origin");
-//   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Content-Type, X-Requested-With, Authorization"
-//   );
-//   if (req.method === "OPTIONS") res.send(200);
-//   else next();
-// };
-// app.use(allowCrossDomain);
 
 //Prevent XSS attacks
 app.use(xss());
@@ -128,10 +103,6 @@ routes(app);
 app.use(express.static("public"));
 
 app.get("/", (req, res) => {
-  // res.set("X-Frame-Options", value);
-  // res.writeHead(200, {
-  //   "Content-Security-Policy": "default-src 'self'",
-  // });
   res.send(`Node and express server running on port ${PORT}`);
 });
 
