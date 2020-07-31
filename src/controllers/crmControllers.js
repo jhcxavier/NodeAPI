@@ -50,7 +50,7 @@ export const updateContact = (req, res) => {
   );
 };
 export const deleteContact = (req, res) => {
-  Contact.remove({ _id: req.params.contactID }, (err, contact) => {
+  Contact.deleteOne({ _id: req.params.contactID }, (err, contact) => {
     if (err) {
       res.send(err);
     }
