@@ -11,7 +11,7 @@ import { login, register, loginRequire } from "../controllers/userControllers";
 const routes = (app) => {
   app.use(helmet.frameguard({ action: "DENY" }));
   app
-    .route("/contact")
+    .route("/contacts")
     .get(
       (req, res, next) => {
         //middleware
