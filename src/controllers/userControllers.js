@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { UserSchema } from "../models/userModel";
-import validator from "validator";
+import sanitize from "mongo-sanitize";
 
 const User = mongoose.model("User", UserSchema);
 
@@ -33,37 +33,36 @@ export const register = (req, res) => {
   });
 };
 export const login = (req, res) => {
-  const email = req.body.email;
-  if (validator.isEmail(req.body.email)) {
-    User.findOne(
-      //We will match the email with the email on the DB
-      {
-        email: email,
-      },
-      (err, user) => {
-        if (err) throw err;
-        // If no user found we send message
-        if (!user) {
+  const clean = sanitize(req.body.email);
+
+  User.findOne(
+    //We will match the email with the email on the DB
+    {
+      email: clean,
+    },
+    (err, user) => {
+      if (err) throw err;
+      // If no user found we send message
+      if (!user) {
+        res
+          .status(401)
+          .json({ message: "Authentication failed. No user found!" });
+      } else if (user) {
+        // if we find user we compare the password if does not match we return 401
+        if (!user.comparePassword(req.body.password, user.hashPassword)) {
           res
             .status(401)
-            .json({ message: "Authentication failed. No user found!" });
-        } else if (user) {
-          // if we find user we compare the password if does not match we return 401
-          if (!user.comparePassword(req.body.password, user.hashPassword)) {
-            res
-              .status(401)
-              .json({ message: "Authentication failed. Wrong password" });
-          } else {
-            // Finally return token if authentication is correct
-            return res.json({
-              token: jwt.sign(
-                { email: user.email, username: user.username, _id: user.id },
-                "RESTFULAPIs"
-              ),
-            });
-          }
+            .json({ message: "Authentication failed. Wrong password" });
+        } else {
+          // Finally return token if authentication is correct
+          return res.json({
+            token: jwt.sign(
+              { email: user.email, username: user.username, _id: user.id },
+              "RESTFULAPIs"
+            ),
+          });
         }
       }
-    );
-  }
+    }
+  );
 };

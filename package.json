@@ -20,6 +20,7 @@
     "hsts": "^2.2.0",
     "http": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
+    "mongo-sanitize": "^1.1.0",
     "mongodb": "^3.5.9",
     "mongoose": "^5.9.25",
     "nodemon": "^2.0.4",
