@@ -31,12 +31,12 @@ export const register = (req, res) => {
     }
   });
 };
-
 export const login = (req, res) => {
+  const email = req.body.email;
   User.findOne(
     //We will match the email with the email on the DB
     {
-      email: req.body.email,
+      email: email,
     },
     (err, user) => {
       if (err) throw err;

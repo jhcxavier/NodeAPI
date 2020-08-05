@@ -9,7 +9,7 @@ import helmet from "helmet";
 import { login, register, loginRequire } from "../controllers/userControllers";
 
 const routes = (app) => {
-  app.use(helmet.frameguard({ action: "DENY" }));
+  // app.use(helmet.frameguard({ action: "DENY" }));
   app
     .route("/contacts")
     .get(
