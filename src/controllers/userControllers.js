@@ -33,13 +33,11 @@ export const register = (req, res) => {
   });
 };
 export const login = (req, res) => {
-  const clean = sanitize(req.body.email);
+  const clean = { email: sanitize(req.body.email) };
 
   User.findOne(
     //We will match the email with the email on the DB
-    {
-      email: clean,
-    },
+    clean,
     (err, user) => {
       if (err) throw err;
       // If no user found we send message
