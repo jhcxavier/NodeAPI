@@ -5,7 +5,7 @@ import validator from "validator";
 const Contact = mongoose.model("Contact", ContactSchema);
 
 export const addNewContact = (req, res) => {
-  let newContact = new Contact(req.body);
+  const newContact = new Contact(req.body);
 
   //validates email format when creating a new contact
   if (validator.isEmail(newContact.email)) {
@@ -50,7 +50,7 @@ export const updateContact = (req, res) => {
   );
 };
 export const deleteContact = (req, res) => {
-  Contact.deleteOne({ _id: req.params.contactID }, (err, contact) => {
+  Contact.deleteOne({ _id: req.params.contactID }, (err) => {
     if (err) {
       res.send(err);
     }

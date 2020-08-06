@@ -8,12 +8,12 @@ import helmet from "helmet";
 const xss = require("xss-clean");
 import RateLimit from "express-rate-limit";
 const hsts = require("hsts");
-import http from "http";
+// import http from "http";
 // const express_enforces_ssl = require("express-enforces-ssl");
 
 const app = express();
 const PORT = 4002;
-var test = "hello";
+
 // helmet setup
 //Helmet is a collection of 12 middleware functions to help set some HTTP response headers.
 app.use(helmet());
