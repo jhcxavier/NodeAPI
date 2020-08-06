@@ -1,0 +1,8 @@
+stages:
+    - test
+njsscan:
+    image: python
+    before_script:
+        - pip3 install --upgrade njsscan
+    script:
+        - njsscan .
