@@ -4,6 +4,7 @@
   "description": "crm backend",
   "main": "index.js",
   "scripts": {
+    "eslint": "eslint",
     "start": "nodemon ./index.js --exec babel-node -e js"
   },
   "author": "Joao Henrique Xavier",
