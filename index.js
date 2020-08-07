@@ -6,7 +6,7 @@ import jsonwebtoken from "jsonwebtoken";
 import helmet from "helmet";
 // import csp from "helmet-csp";
 const xss = require("xss-clean");
-import RateLimit from "express-rate-limit";
+// import RateLimit from "express-rate-limit";
 const hsts = require("hsts");
 // import http from "http";
 // const express_enforces_ssl = require("express-enforces-ssl");
@@ -52,12 +52,12 @@ app.use(
 //Prevent XSS attacks
 app.use(xss());
 
-//Rate Limit setup (Minimize DoS Attack) Denial of Service
-const limiter = new RateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, //limit of number of request per IP
-  delayMs: 0, //disable delays
-});
+// Rate Limit setup(Minimize DoS Attack) Denial of Service
+// const limiter = new RateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 100, //limit of number of request per IP
+//   delayMs: 0, //disable delays
+// });
 
 //mongoose connection
 mongoose.Promise = global.Promise;
