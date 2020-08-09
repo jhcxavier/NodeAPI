@@ -35,7 +35,7 @@ export const register = (req, res) => {
 export const login = (req, res) => {
   const clean = { email: sanitize(req.body.email) };
 
-  User.findOne(
+  User.find(
     //We will match the email with the email on the DB
     clean,
     (err, user) => {
