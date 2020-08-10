@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { UserSchema } from "../models/userModel";
 import sanitize from "mongo-sanitize";
+import validator from "validator";
+
 
 const User = mongoose.model("User", UserSchema);
 
@@ -33,7 +35,14 @@ export const register = (req, res) => {
   });
 };
 export const login = (req, res) => {
-  const clean = { email: sanitize(req.body.email) };
+  let clean;
+  if (validator.isEmail(req.body.email)) {
+    clean = { email: sanitize(req.body.email) };
+  } else {
+    res
+      .status(401)
+      .json({ message: "Authentication failed. No user found!" });
+  }
 
   User.findOne(
     //We will match the email with the email on the DB
