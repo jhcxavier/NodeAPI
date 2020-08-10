@@ -19,7 +19,7 @@ const routes = (app) => {
         console.log(`Request type ${req.method}`);
         next();
       },
-      // loginRequire,
+      loginRequire,
       getContact
     )
     //post endpoint
