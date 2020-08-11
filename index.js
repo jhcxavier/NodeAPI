@@ -4,12 +4,12 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import jsonwebtoken from "jsonwebtoken";
 import helmet from "helmet";
+import cors from "cors";
+
 // import csp from "helmet-csp";
 const xss = require("xss-clean");
 // import RateLimit from "express-rate-limit";
 const hsts = require("hsts");
-// import http from "http";
-// const express_enforces_ssl = require("express-enforces-ssl");
 
 const app = express();
 const PORT = 4002;
@@ -18,6 +18,8 @@ const PORT = 4002;
 //Helmet is a collection of 12 middleware functions to help set some HTTP response headers.
 app.use(helmet());
 
+//middleware that can be used to enable CORS
+app.use(cors())
 // This simple module enforces HTTPS connections on any incoming requests.
 // app.use(express_enforces_ssl());
 
@@ -33,37 +35,15 @@ app.use(
   })
 );
 
-//In short: the CSP module sets the Content-Security-Policy header which can help protect against malicious
-//injection of JavaScript, CSS, plugins, and more.
-// app.use(
-//   csp({
-//     directives: {
-//       defaultSrc: ["'self'", "default.com"],
-//       scriptSrc: ["'self'", "'unsafe-inline'"],
-//       sandbox: ["allow-forms", "allow-scripts"],
-//       reportUri: "/report-violation",
-//       objectSrc: ["'none'"],
-//       upgradeInsecureRequests: true,
-//       workerSrc: false,
-//     },
-//   })
-// );
-
 //Prevent XSS attacks
 app.use(xss());
 
 //Enabling Cors
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-// Rate Limit setup(Minimize DoS Attack) Denial of Service
-// const limiter = new RateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 minutes
-//   max: 100, //limit of number of request per IP
-//   delayMs: 0, //disable delays
-// });
 
 //mongoose connection
 mongoose.Promise = global.Promise;
