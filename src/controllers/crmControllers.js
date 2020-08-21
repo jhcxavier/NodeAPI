@@ -11,7 +11,9 @@ export const addNewContact = (req, res) => {
   if (validator.isEmail(newContact.email)) {
     newContact.save((err, contact) => {
       if (err) {
-        res.send(err);
+        res.status(400).send({
+          message: err,
+        })
       }
       res.json(contact);
       contact = undefined;
@@ -23,7 +25,9 @@ export const addNewContact = (req, res) => {
 export const getContact = (req, res) => {
   Contact.find({}, (err, contact) => {
     if (err) {
-      res.send(err);
+      res.status(400).send({
+        message: err,
+      })
     }
     res.json(contact);
   });
@@ -31,7 +35,9 @@ export const getContact = (req, res) => {
 export const getContactById = (req, res) => {
   Contact.findById({ _id: req.params.contactID }, (err, contact) => {
     if (err) {
-      res.send(err);
+      res.status(400).send({
+        message: err,
+      })
     }
     res.json(contact);
   });
@@ -43,7 +49,9 @@ export const updateContact = (req, res) => {
     { new: true, useFindAndModify: false },
     (err, contact) => {
       if (err) {
-        res.send(err);
+        res.status(400).send({
+          message: err,
+        });
       }
       res.json(contact);
     }
@@ -52,7 +60,9 @@ export const updateContact = (req, res) => {
 export const deleteContact = (req, res) => {
   Contact.deleteOne({ _id: req.params.contactID }, (err) => {
     if (err) {
-      res.send(err);
+      res.status(400).send({
+        message: err,
+      })
     }
     res.json({ message: "Successfully deleted contact" });
   });

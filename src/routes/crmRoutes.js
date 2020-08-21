@@ -19,18 +19,18 @@ const routes = (app) => {
         console.log(`Request type ${req.method}`);
         next();
       },
-      loginRequire,
+      // loginRequire,
       getContact
     )
     //post endpoint
-    .post(loginRequire, addNewContact);
+    .post(addNewContact);
 
   app
     .route("/contact/:contactID")
     //get specific contact
     .get(loginRequire, getContactById)
     //Update contact
-    .put(loginRequire, updateContact)
+    .put(updateContact)
     //delete contact
     .delete(loginRequire, deleteContact);
 
