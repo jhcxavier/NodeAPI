@@ -24,7 +24,7 @@
     "http": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
     "mongo-sanitize": "^1.1.0",
-    "mongodb": "^3.5.9",
+    "mongodb": "^3.6.0",
     "mongoose": "^5.10.0",
     "nodemon": "^2.0.4",
     "validator": "^13.1.1",
