@@ -26,7 +26,7 @@
     "mongo-sanitize": "^1.1.0",
     "mongodb": "^3.5.9",
     "mongoose": "^5.10.0",
-    "nodemon": "^2.0.4",
+    "nodemon": "^2.0.17",
     "validator": "^13.1.1",
     "xss-clean": "^0.1.1"
   },
